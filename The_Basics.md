@@ -70,3 +70,157 @@ go run main.go
 go build main.go
 
 ```
+
+Now that your environment is set up, let's dive into Go's basic syntax. Go was designed at Google to be clean, readable, and minimalist.
+
+Here is everything you need to know about variables, constants, data types, and control flow in Go.
+
+---
+
+### 1. Variables and Constants
+
+Go is a **statically typed** language, meaning variable types are checked at compile-time. There are two primary ways to declare variables:
+
+#### Standard Declaration (`var`)
+
+Used when you want to declare a variable but might not assign a value to it immediately, or when declaring variables at the package level (outside of functions).
+
+```go
+var name string = "Alice"
+var age int // Declared but not initialized. Defaults to "zero value" (0)
+
+```
+
+#### Short Variable Declaration (`:=`)
+
+This is the most common way to declare and initialize variables *inside* functions. Go automatically infers the data type for you.
+
+```go
+country := "Canada" // Go infers this is a string
+score := 95        // Go infers this is an int
+
+```
+
+#### Constants (`const`)
+
+Constants hold values that cannot change once assigned. They must be known at compile-time.
+
+```go
+const Pi = 3.14159
+const StatusOK = 200
+
+```
+
+---
+
+### 2. Basic Data Types
+
+Go keeps its primitive types straightforward. The most commonly used ones are:
+
+| Type | Description | Examples |
+| --- | --- | --- |
+| `string` | Textual data | `"Hello, Go!"` |
+| `int`, `int64` | Integers (whole numbers) | `42`, `-10` |
+| `float64` | Floating-point (decimal) numbers | `3.14`, `0.005` |
+| `bool` | Boolean logic | `true`, `false` |
+
+> **The "Zero Value":** If you declare a variable without explicitly giving it a value, Go automatically assigns it a safe default "zero value". For `int` it's `0`, for `float64` it's `0.0`, for `string` it's `""` (empty string), and for `bool` it's `false`.
+
+---
+
+### 3. Control Flow
+
+#### If / Else
+
+In Go, you do not put parentheses `()` around your conditions, but curly braces `{}` are **mandatory**.
+
+```go
+age := 18
+
+if age >= 21 {
+    fmt.Println("Adult")
+} else if age >= 13 {
+    fmt.Println("Teenager")
+} else {
+    fmt.Println("Child")
+}
+
+```
+
+*Bonus Feature:* Go allows an initialization statement before the condition, which limits the scope of that variable to the `if` block:
+
+```go
+if length := len(name); length > 5 {
+    fmt.Println("That's a long name!")
+}
+// 'length' cannot be used out here
+
+```
+
+#### Switch Statements
+
+Go's `switch` is a cleaner way to write multiple `if/else` conditions. Crucially, Go has an automatic `break` built-in, so code doesn't accidentally fall through to the next case.
+
+```go
+finger := 3
+
+switch finger {
+case 1:
+    fmt.Println("Thumb")
+case 2:
+    fmt.Println("Index")
+case 3:
+    fmt.Println("Middle") // Code stops executing here!
+default:
+    fmt.Println("Other finger")
+}
+
+```
+
+#### The `for` Loop (Go's Only Loop)
+
+Go keeps the language minimal by only providing **one** looping keyword: `for`. However, you can use it in three different ways to mimic standard loops from other languages:
+
+**1. The Standard 3-Component Loop (like C or Java):**
+
+```go
+for i := 0; i < 5; i++ {
+    fmt.Println(i)
+}
+
+```
+
+**2. The "While" Loop Style:**
+If you omit the initialization and post statements, it acts exactly like a `while` loop.
+
+```go
+count := 1
+for count <= 3 {
+    fmt.Println(count)
+    count++
+}
+
+```
+
+**3. The Infinite Loop:**
+Omitting the condition entirely creates a loop that runs forever until you explicitly `break` or `return`.
+
+```go
+for {
+    fmt.Println("Running...")
+    break // stops the infinite loop
+}
+
+```
+
+**4. Looping over Collections (`range`):**
+To iterate over arrays, slices, strings, or maps, Go uses the `range` keyword, which returns both the **index** and the **value**.
+
+```go
+fruits := []string{"apple", "banana"}
+
+for index, value := range fruits {
+    fmt.Printf("Index: %d, Value: %s\n", index, value)
+}
+
+```
