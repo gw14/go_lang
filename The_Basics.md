@@ -332,6 +332,121 @@ primes := []int{2, 3, 5, 7}
 
 // Incorrect: total := sum(primes) -> Compiler Error!
 // Correct: Unpack the slice into individual arguments
+
+Here is a complete, runnable Go program that ties together every single concept covered in the guide: installation verifications, variables, constants, zero values, control flow (`if`, `switch`, loops), multiple returns, error handling, named returns, and variadic functions.
+
+To run this locally, save the code as `main.go` and use your CLI tools:
+
+```bash
+go fmt main.go
+go run main.go
+
+```
+
+```go
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+// 1. GLOBAL CONSTANTS & VARIABLES
+const AppName = "GoBasicsDemo"
+const MaxLimit = 100
+
+var Version string = "1.0.0"
+
+// 2. A VARIADIC FUNCTION (with Multiple Return Values)
+// Accepts any number of ints, returns the total sum and an error if empty
+func calculateSum(numbers ...int) (int, error) {
+	if len(numbers) == 0 {
+		return 0, errors.New("no numbers provided to calculateSum")
+	}
+
+	total := 0
+	// For loop (Range style) iterating over the slice
+	for _, num := range numbers {
+		total += num
+	}
+	return total, nil
+}
+
+// 3. NAMED RETURN VALUES (with a Naked Return)
+// Automatically initializes x and y to their zero value (0)
+func getDefaultCoordinates() (x int, y int) {
+	x = 10
+	y = 20
+	return // Naked return: automatically returns x and y
+}
+
+func main() {
+	fmt.Printf("--- Welcome to %s (v%s) ---\n\n", AppName, Version)
+
+	// 4. VARIABLE DECLARATIONS & ZERO VALUES
+	var uninitializedInt int // Defaults to 0
+	shortString := "Learning Go" // Short variable declaration (inferred string)
+	
+	fmt.Printf("Zero value of int: %d\n", uninitializedInt)
+	fmt.Printf("Short declaration string: %s\n\n", shortString)
+
+	// 5. CONTROL FLOW: IF / ELSE WITH INITIALIZATION STATEMENT
+	// 'limitCheck' is only accessible inside this if/else block
+	if limitCheck := MaxLimit; limitCheck > 50 {
+		fmt.Println("Status: Max limit is safely above the threshold of 50.")
+	} else {
+		fmt.Println("Status: Alert! Limit is too low.")
+	}
+
+	// 6. CONTROL FLOW: SWITCH STATEMENT
+	dayCode := 2
+	switch dayCode {
+	case 1:
+		fmt.Println("Schedule: Code review day.")
+	case 2:
+		fmt.Println("Schedule: Feature development day.") // Automatically breaks here!
+	default:
+		fmt.Println("Schedule: Standard operations.")
+	}
+	fmt.Println("")
+
+	// 7. CONTROL FLOW: STANDARD & WHILE-STYLE LOOPS
+	fmt.Print("Standard Loop: ")
+	for i := 1; i <= 3; i++ {
+		fmt.Printf("%d ", i)
+	}
+	fmt.Println("")
+
+	fmt.Print("While-Style Loop: ")
+	count := 3
+	for count > 0 {
+		fmt.Printf("%d ", count)
+		count--
+	}
+	fmt.Println("\n")
+
+	// 8. ERROR HANDLING & DISCARDING VALUES
+	// Testing our function's error scenario and using the blank identifier '_'
+	_, err := calculateSum() 
+	if err != nil {
+		fmt.Println("Expected Error Caught:", err)
+	}
+
+	// 9. WORKING WITH SLICES & UNPACKING VARIADIC ARGUMENTS
+	scores := []int{15, 25, 35}
+	
+	// Unpacking the 'scores' slice into individual arguments using '...'
+	totalScore, scoreErr := calculateSum(scores...)
+	if scoreErr == nil {
+		fmt.Printf("Success! The unpacked slice total is: %d\n", totalScore)
+	}
+
+	// 10. USING NAMED RETURN FUNCTION
+	posX, posY := getDefaultCoordinates()
+	fmt.Printf("Starting Coordinates -> X: %d, Y: %d\n", posX, posY)
+}
+
+```
 total := sum(primes...) 
 fmt.Println(total) // Output: 17
 
