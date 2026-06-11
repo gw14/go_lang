@@ -11,6 +11,8 @@ Before diving into complex architectures, you need to master the fundamental syn
 * **Basic Data Structures:** Arrays, Slices, and Maps. Master how slices work under the hood (length vs. capacity).
 * **Functions:** Multiple return values, named return values, and variadic functions.
 
+* [roadmap chat](https://gemini.google.com/app/6fac710e536c0274)
+
 ### 2. Intermediate Concepts
 
 This is where you begin learning Go's unique features.
