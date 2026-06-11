@@ -224,3 +224,115 @@ for index, value := range fruits {
 }
 
 ```
+
+Functions in Go are first-class citizens, meaning they can be passed around as values, assigned to variables, and passed as arguments. Go treats functions with a few unique structural twists that make handling data and errors elegant.
+
+Here is how to master multiple returns, named returns, and variadic functions.
+
+---
+
+### 1. Multiple Return Values
+
+In many languages, if you want a function to return more than one piece of data, you have to wrap them in an object, a tuple, or a map. Go natively supports returning multiple values.
+
+This is most heavily used across the entire Go ecosystem for **error handling**, where a function returns the desired result *and* an error object side-by-side.
+
+```go
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+// This function returns both an int and an error
+func divide(a, b int) (int, error) {
+	if b == 0 {
+		return 0, errors.New("cannot divide by zero")
+	}
+	return a / b, nil
+}
+
+func main() {
+	result, err := divide(10, 2)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+	fmt.Println("Result:", result) // Output: 5
+}
+
+```
+
+#### Ignoring Return Values
+
+If a function returns multiple values but you only care about one of them, you **must** use the blank identifier `_` to discard the unwanted value. Go will refuse to compile if you declare a variable and don't use it.
+
+```go
+// We only care about the result, ignoring the error (not recommended in production!)
+result, _ := divide(10, 5)
+
+```
+
+---
+
+### 2. Named Return Values
+
+Go allows you to give names to the variables in the function's return signature. These variables are automatically treated as if they were declared at the top of your function, initialized to their "zero values".
+
+When you use named return values, a plain `return` statement (known as a **naked return**) will automatically return the current values of those variables.
+
+```go
+func getCoordinates() (x int, y int) {
+	// x and y are already initialized to 0 here
+	x = 10
+	y = 20
+	return // Automatically returns x and y
+}
+
+```
+
+> **Best Practice Warning:** While named return values can make your code self-documenting (by clarifying what the returns represent), **naked returns should be used sparingly**. In longer functions, naked returns ruin readability because a developer has to scroll back to the top of the function signature to figure out what is actually being sent back.
+
+---
+
+### 3. Variadic Functions
+
+A variadic function is a function that can accept **any number of trailing arguments**. The most famous example you’ve already been using is `fmt.Println()`.
+
+To make a function variadic, prefix the type of the final parameter with three dots `...`. Inside the function, this parameter behaves exactly like a **slice** of that type.
+
+```go
+// sum accepts zero or more integers
+func sum(numbers ...int) int {
+	total := 0
+	for _, num := range numbers {
+		total += num
+	}
+	return total
+}
+
+func main() {
+	// You can pass individual arguments one by one
+	fmt.Println(sum(1, 2))        // Output: 3
+	fmt.Println(sum(1, 2, 3, 4))  // Output: 10
+	fmt.Println(sum())            // Output: 0 (slice is nil/empty)
+}
+
+```
+
+#### Passing an Existing Slice to a Variadic Function
+
+If you already have a slice of data and you try to pass it directly into a variadic function, Go will throw a compiler error because it expects individual elements, not a single slice container.
+
+To fix this, you must **unpack** the slice using the `...` suffix:
+
+```go
+primes := []int{2, 3, 5, 7}
+
+// Incorrect: total := sum(primes) -> Compiler Error!
+// Correct: Unpack the slice into individual arguments
+total := sum(primes...) 
+fmt.Println(total) // Output: 17
+
+```
