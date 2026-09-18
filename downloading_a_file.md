@@ -3,6 +3,8 @@ Here is how to do it efficiently using only Go's standard library.
 ## Standard Library Approach (Recommended)
 This snippet uses http.Get to fetch the data and io.Copy to stream the response body directly into a newly created local file. [2] 
 
+```go
+
 package main
 import (
 	"fmt"
@@ -52,13 +54,13 @@ func main() {
 	fmt.Println("Download complete!")
 }
 
+```
+
 ## Alternative: Using Production-Ready Packages
 If you need advanced features like resuming broken downloads, tracking download progress, or checksum validation, you can use battle-tested open-source libraries instead of building them yourself:
 
-* 
 * [grab](https://pkg.go.dev/github.com/cuu/grab): A highly reliable package designed for large files that supports auto-resuming, concurrent tracking, and progress indicators.
 * [got](https://github.com/melbahja/got): A faster concurrent file downloader package that downloads files in chunks, operating much quicker than typical cURL or Wget requests. [1, 3, 4] 
-* 
 
 Would you like to see how to implement this with a progress bar, or are you looking to handle concurrent downloads for multiple files at once? [5, 6] 
 
