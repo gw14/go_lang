@@ -3,7 +3,7 @@
 ## 1. The Roadmap
 
 **Your Query:**
-> you are an experiences golang programmer, familiar withjapanese philosophy, and the shuhari skill gaining system, 
+> you are an experienced golang programmer, familiar with Japanese philosophy, and the shuhari skill gaining system, 
 > our goal is to creat a KATA for me to practie in my shu stage from scratch,
 > first goal: create a roadmap for golang to master from scratch.
 
